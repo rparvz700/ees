@@ -31,7 +31,7 @@
             <div class="block-header block-header-default">
                 <h3 class="block-title">Questions</h3>
                 @can('create-question')
-                    <a href="{{ route('questions.create') }}" class="btn btn-sm btn-primary">Add Question</a>
+                    <a href="{{ route('questions.form') }}" class="btn btn-sm btn-primary">Manage Question</a>
                 @endcan
             </div>
             <div class="block-content fs-sm data-content">
@@ -40,12 +40,10 @@
                         <thead>
                             <tr>
                                 <th class="text-center all">ID</th>
-                                <th class="all">Year</th>
                                 <th class="all">Number</th>
                                 <th class="all">Text</th>
                                 <th class="all">Dimension</th>
                                 <th class="all">Reverse?</th>
-                                <th class="all">Actions</th>
                             </tr>
                         </thead>
                     </table>
@@ -117,12 +115,10 @@
                         responsive: !0,
                         columns: [
                             { data: 'id' },
-                            { data: 'year' },
                             { data: 'number' },
                             { data: 'text' },
                             { data: 'dimension' },
-                            { data: 'reverse_coded' },
-                            { data: 'actions', searchable: false, orderable: false }
+                            { data: 'reverse_coded' }
                         ],
                     });
                 }

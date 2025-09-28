@@ -16,7 +16,7 @@
 <div class="content">
     <div class="block block-rounded">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Add Question</h3>
+            <h3 class="block-title">Manage Questions</h3>
         </div>
         <div class="block-content fs-sm data-content">
             <form class="mb-4" action="{{ route('questions.store') }}" method="POST" autocomplete="off">

@@ -40,6 +40,11 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
+                            <a class="nav-main-link {{ isset($activeMenu) && (in_array($activeMenu, ['announce'])) ? 'active' : '' }}" href="{{ route('announce.create') }}">
+                                <span class="nav-main-link-name">Announce</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
                             <a class="nav-main-link {{ isset($activeMenu) && (in_array($activeMenu, ['questions'])) ? 'active' : '' }}" href="{{ route('questions.index') }}">
                                 <span class="nav-main-link-name">Questions</span>
                             </a>
@@ -49,11 +54,7 @@
                                 <span class="nav-main-link-name">Responses</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
-                            <a class="nav-main-link {{ isset($activeMenu) && (in_array($activeMenu, ['submit-responses'])) ? 'active' : '' }}" href="{{ route('responses.create') }}">
-                                <span class="nav-main-link-name">Submit Response</span>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
                 {{-- ------------------------------End Survey Management-------------------------- --}}

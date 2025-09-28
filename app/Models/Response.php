@@ -11,11 +11,8 @@ class Response extends Model
 
     protected $fillable = [
         'question_order',
-        'department',
-        'group',
-        'submitted',
-        'submitted_at',
         'flags',
+        'submission_id',
         'question_id',
         'answer',
     ];
@@ -23,12 +20,18 @@ class Response extends Model
     protected $casts = [
         'question_order' => 'array',
         'flags' => 'array',
-        'submitted' => 'boolean',
-        'submitted_at' => 'datetime',
     ];
 
     /**
-     * A response belongs to a specific question.
+     * A response belongs to a submission.
+     */
+    public function submission()
+    {
+        return $this->belongsTo(Submission::class);
+    }
+
+    /**
+     * A response belongs to a question.
      */
     public function question()
     {

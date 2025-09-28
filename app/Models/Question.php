@@ -10,7 +10,6 @@ class Question extends Model
     use HasFactory;
 
     protected $fillable = [
-        'year',
         'number',
         'text',
         'dimension',

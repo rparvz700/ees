@@ -10,7 +10,6 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->year('year'); // which year's survey this belongs to
             $table->unsignedSmallInteger('number')->unique(); // e.g., 1..100
             $table->text('text'); // actual question text
             $table->json('dimensions')->nullable(); // ["Leadership","Attrition Risk"] // e.g., Leadership, Skills, Wellbeing
