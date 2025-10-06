@@ -19,21 +19,4 @@ class Dimension extends Model
         'weight', // optional: if you want weighted dimensions later
     ];
 
-
-    /**
-    * A Dimension has many Questions
-    */
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
-    }
-
-
-    /**
-    * Helper: return number of questions in the dimension
-    */
-    public function questionCount(): int
-    {
-        return $this->questions()->count();
-    }
 }

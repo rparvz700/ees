@@ -80,14 +80,6 @@
         </div>
         <div class="block-content">
             <div class="row text-center">
-                @php
-                    $totalResponses = count($submission['responses']);
-                    $averageScore = $totalResponses > 0 ? round(collect($submission['responses'])->avg('answer'), 1) : 0;
-                    $highScores = collect($submission['responses'])->where('answer', '>=', 4)->count();
-                    $lowScores = collect($submission['responses'])->where('answer', '<=', 2)->count();
-                    $uniqueDimensions = collect($submission['responses'])->pluck('question.dimension')->flatten()->unique();
-                @endphp
-                
                 <div class="col-6 col-md-3">
                     <div class="fs-2 fw-bold text-primary">{{ $totalResponses }}</div>
                     <div class="fw-semibold text-uppercase text-muted">Total Questions</div>

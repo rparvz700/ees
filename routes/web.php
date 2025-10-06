@@ -2,6 +2,7 @@
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,9 @@ Route::middleware(['auth'])->group(function(){
     
     Route::get('questions-list', [QuestionController::class, 'list'])->name('questions.list');
     Route::get('responses-list', [ResponseController::class, 'list'])->name('responses.list');
+
+    Route::get('/reports/', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/view/{reportName}/{year}', [ReportController::class, 'show'])->name('reports.show');
 });
 
 Auth::routes(['register' => false]);

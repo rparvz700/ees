@@ -1,74 +1,59 @@
 <?php
+
 namespace App\Services;
 
-
 use App\Models\Submission;
-use App\Models\Dimension;
-
 
 class EngagementService
 {
     protected $dimensionService;
 
-
-    // Default expected number of dimensions (10) can be configured
-    protected $expectedDimensions;
-
-
     public function __construct(DimensionService $dimensionService)
     {
         $this->dimensionService = $dimensionService;
-        $this->expectedDimensions = config('ees.dimensions_count', 10);
     }
 
-
     /**
-    * Calculate EEI for a single submission (employee)
-    * EEI = sum(all dimension scores) / expected_dimensions
-    */
-    public function calculateEEIForSubmission(Submission $submission): ?float
+     * Calculate the overall EEI (Employee Engagement Index) for a submission.
+     * This averages across all dimension scores.
+     */
+    public function calculateEEIForSubmission(Submission $submission)
     {
-        $dimensionsScores = $this->dimensionService->calculateAllDimensionsForSubmission($submission);
+        // Get all dimension scores
+        $dimensionScores = $this->dimensionService->calculateAllDimensionScores($submission);
 
-
-        $sum = 0;
-        $counted = 0;
-
-
-        foreach ($dimensionsScores as $d) {
-            if (!is_null($d['score'])) {
-                $sum += $d['score'];
-                $counted++;
+        if (empty($dimensionScores)) {
+            return null;
         }
+
+        // Average across all dimensions
+        $sum = array_sum($dimensionScores);
+        $count = count($dimensionScores);
+
+        return $count > 0 ? round($sum / $count, 2) : null;
     }
-
-
-    // if no dimension had responses, return null
-    if ($counted === 0) {
-        return null;
-    }
-
-
-    // Use expectedDimensions as denominator so EEI is comparable across survey versions
-    $denominator = max($this->expectedDimensions, $counted);
-
-
-        return round($sum / $denominator, 2);
-    }
-
 
     /**
-    * Convenience: returns both dimension scores and EEI
-    */
-    public function calculateSubmissionEngagement(Submission $submission): array
+     * Calculate engagement scores for each dimension of a submission.
+     * Returns array like: [ 'teamwork' => 3.75, 'leadership' => 4.20 ]
+     */
+    public function calculateSubmissionEngagement(Submission $submission)
     {
-        $dimensions = $this->dimensionService->calculateAllDimensionsForSubmission($submission);
+        return $this->dimensionService->calculateAllDimensionScores($submission);
+    }
+
+    public function storeSubmissionEEI(Submission $submission)
+    {
         $eei = $this->calculateEEIForSubmission($submission);
+        $dimensionScores = $this->calculateSubmissionEngagement($submission);
+        $inconsistentDimensions = $this->dimensionService->analyzeReverseCodingConsistency($submission);
+        dd($inconsistentDimensions);
+        // Update submission with EEI and dimension scores
+        $submission->eei = $eei;
+        $submission->dimension_scores = !empty($dimensionScores) ? json_encode($dimensionScores) : null;
+        $submission->reverse_inconsistency = !empty($inconsistentDimensions) ? $inconsistentDimensions->toJson(JSON_PRETTY_PRINT) : null;
+        $submission->save();
 
-
-        return [
-            'dimensions' => $dimensions,
-            'eei' => $eei,
-        ];
+        return $submission;
     }
 }

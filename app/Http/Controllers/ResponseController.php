@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 
+use App\Services\DimensionService;
+use App\Services\EngagementService;
+
 class ResponseController extends Controller
 {
     public function list(Request $request)
@@ -30,16 +33,63 @@ class ResponseController extends Controller
     public function announceStore(Request $request)
     {
         $employees = [
-            ['name' => 'A', 'hr_id' => '1001', 'department' => 'Automation', 'is_tech' => true],
-            ['name' => 'B', 'hr_id' => '1002', 'department' => 'Automation', 'is_tech' => true],
-            ['name' => 'C', 'hr_id' => '1003', 'department' => 'Automation', 'is_tech' => true],
-            // Add more employees...
-        ];
+                        ['name' => 'A', 'hr_id' => '1001', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'B', 'hr_id' => '1002', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'C', 'hr_id' => '1003', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'D', 'hr_id' => '1004', 'department' => 'IT Dev', 'is_tech' => true],
+                        ['name' => 'E', 'hr_id' => '1005', 'department' => 'IT Dev', 'is_tech' => true],
+                        ['name' => 'F', 'hr_id' => '1006', 'department' => 'IT Infra', 'is_tech' => true],
+                        ['name' => 'G', 'hr_id' => '1007', 'department' => 'IT Infra', 'is_tech' => true],
+                        ['name' => 'H', 'hr_id' => '1008', 'department' => 'HR', 'is_tech' => false],
+                        ['name' => 'I', 'hr_id' => '1009', 'department' => 'HR', 'is_tech' => false],
+                        ['name' => 'J', 'hr_id' => '1010', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'K', 'hr_id' => '1011', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'L', 'hr_id' => '1012', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'M', 'hr_id' => '1013', 'department' => 'Marketing', 'is_tech' => false],
+                        ['name' => 'N', 'hr_id' => '1014', 'department' => 'Marketing', 'is_tech' => false],
+                        ['name' => 'O', 'hr_id' => '1015', 'department' => 'Sales', 'is_tech' => false],
+                        ['name' => 'P', 'hr_id' => '1016', 'department' => 'Sales', 'is_tech' => false],
+                        ['name' => 'Q', 'hr_id' => '1017', 'department' => 'Customer Support', 'is_tech' => false],
+                        ['name' => 'R', 'hr_id' => '1018', 'department' => 'Customer Support', 'is_tech' => false],
+                        ['name' => 'S', 'hr_id' => '1019', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'T', 'hr_id' => '1020', 'department' => 'IT Dev', 'is_tech' => true],
+                        ['name' => 'U', 'hr_id' => '1021', 'department' => 'IT Infra', 'is_tech' => true],
+                        ['name' => 'V', 'hr_id' => '1022', 'department' => 'HR', 'is_tech' => false],
+                        ['name' => 'W', 'hr_id' => '1023', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'X', 'hr_id' => '1024', 'department' => 'Marketing', 'is_tech' => false],
+                        ['name' => 'Y', 'hr_id' => '1025', 'department' => 'Sales', 'is_tech' => false],
+                        ['name' => 'Z', 'hr_id' => '1026', 'department' => 'Customer Support', 'is_tech' => false],
+                        ['name' => 'AA', 'hr_id' => '1027', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'AB', 'hr_id' => '1028', 'department' => 'IT Dev', 'is_tech' => true],
+                        ['name' => 'AC', 'hr_id' => '1029', 'department' => 'IT Infra', 'is_tech' => true],
+                        ['name' => 'AD', 'hr_id' => '1030', 'department' => 'HR', 'is_tech' => false],
+                        ['name' => 'AE', 'hr_id' => '1031', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'AF', 'hr_id' => '1032', 'department' => 'Marketing', 'is_tech' => false],
+                        ['name' => 'AG', 'hr_id' => '1033', 'department' => 'Sales', 'is_tech' => false],
+                        ['name' => 'AH', 'hr_id' => '1034', 'department' => 'Customer Support', 'is_tech' => false],
+                        ['name' => 'AI', 'hr_id' => '1035', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'AJ', 'hr_id' => '1036', 'department' => 'IT Dev', 'is_tech' => true],
+                        ['name' => 'AK', 'hr_id' => '1037', 'department' => 'IT Infra', 'is_tech' => true],
+                        ['name' => 'AL', 'hr_id' => '1038', 'department' => 'HR', 'is_tech' => false],
+                        ['name' => 'AM', 'hr_id' => '1039', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'AN', 'hr_id' => '1040', 'department' => 'Marketing', 'is_tech' => false],
+                        ['name' => 'AO', 'hr_id' => '1041', 'department' => 'Sales', 'is_tech' => false],
+                        ['name' => 'AP', 'hr_id' => '1042', 'department' => 'Customer Support', 'is_tech' => false],
+                        ['name' => 'AQ', 'hr_id' => '1043', 'department' => 'Automation', 'is_tech' => true],
+                        ['name' => 'AR', 'hr_id' => '1044', 'department' => 'IT Dev', 'is_tech' => true],
+                        ['name' => 'AS', 'hr_id' => '1045', 'department' => 'IT Infra', 'is_tech' => true],
+                        ['name' => 'AT', 'hr_id' => '1046', 'department' => 'HR', 'is_tech' => false],
+                        ['name' => 'AU', 'hr_id' => '1047', 'department' => 'Finance', 'is_tech' => false],
+                        ['name' => 'AV', 'hr_id' => '1048', 'department' => 'Marketing', 'is_tech' => false],
+                        ['name' => 'AW', 'hr_id' => '1049', 'department' => 'Sales', 'is_tech' => false],
+                        ['name' => 'AX', 'hr_id' => '1050', 'department' => 'Customer Support', 'is_tech' => false],
+                    ];
+
         // ✅ Validate incoming data
         $validated = $request->validate([
             'year'       => 'required|integer|min:2025|max:2100',
-            'department' => 'required|string|max:255',
-            'is_tech'    => 'required|string|in:Tech,Non-Tech,Other',
+            'department' => 'required|string',
+            'is_tech'    => 'required|in:Tech,Non-Tech'
         ]);
         
         // ✅ Check if year already announced
@@ -51,9 +101,9 @@ class ResponseController extends Controller
 
         // ✅ Filter employees based on department + is_tech
         $matchedEmployees = collect($employees)->filter(function ($emp) use ($validated) {
-            return $emp['department'] === $validated['department']
-                && $emp['is_tech'] == $validated['is_tech'];
+            return $emp['department'] !== $validated['department'];
         });
+
 
         if ($matchedEmployees->isEmpty()) {
             return redirect()
@@ -73,8 +123,8 @@ class ResponseController extends Controller
                     'employee_code' => $code,
                     'submitted'     => false,
                     'year'          => $validated['year'],
-                    'department'    => $validated['department'],
-                    'is_tech'       => ($validated['is_tech'] == 'Tech') ? true : false
+                    'department'    => $emp['department'],
+                    'is_tech'       => ($emp['is_tech'] == 'Tech') ? true : false
                 ]);
             }
 
@@ -147,7 +197,8 @@ class ResponseController extends Controller
         $isDraft = $request->input('action') === 'draft';
         
         // Get submission and questions
-        $submission = Submission::findOrFail($submissionId);
+        $submission = Submission::with('responses.question')->findOrFail($submissionId);
+
         $questions = Question::orderBy('number')->get();
         //dd($request->input('action'));
         // Validation rules differ based on draft vs submit
@@ -213,6 +264,14 @@ class ResponseController extends Controller
             ->with('success', 'Your progress has been saved as draft. You can continue later.')
             ->with('draft', true);
         } else {
+            $engagementService = new EngagementService(new DimensionService());
+            // $submission = Submission::find(8);
+
+            $eei = $engagementService->calculateEEIForSubmission($submission);
+            $dimensionBreakdown = $engagementService->calculateSubmissionEngagement($submission);
+
+            //dd($submission->toArray());
+            $engagementService->storeSubmissionEEI($submission);
             return redirect()->back()
             ->with('success', 'Your Survey is complete. Thank you for your participation!')
             ->with('draft', false);
@@ -226,6 +285,20 @@ class ResponseController extends Controller
  
         $activeMenu = 'responses';
         //$response->load('response'); // eager load related question
+
+        $totalResponses = count($submission['responses']);
+        $eei = $submission->eei ?? 0;
+        $answerStats = collect($submission['responses'])
+                        ->groupBy('answer')
+                        ->map->count()
+                        ->sortDesc();
+        $highestIdenticalAnswer = $answerStats->keys()->first();
+        $highestCount = $answerStats->first();
+
+        
+        $uniqueDimensions = collect($submission['responses'])->pluck('question.dimension')->flatten()->unique();
+
+
         return view('responses.show', compact('submission', 'activeMenu'));
     }
 

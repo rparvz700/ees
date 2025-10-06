@@ -54,6 +54,11 @@
                                 <span class="nav-main-link-name">Responses</span>
                             </a>
                         </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ isset($activeMenu) && (in_array($activeMenu, ['reports'])) ? 'active' : '' }}" href="{{ route('reports.index') }}">
+                                <span class="nav-main-link-name">Reports</span>
+                            </a>
+                        </li>
                         
                     </ul>
                 </li>

@@ -17,6 +17,10 @@ class Submission extends Model
         'is_tech',
         'submitted',
         'submitted_at',
+        'eei',
+        'dimension_scores',
+        'reverse_inconsistency',
+        'is_identical'
     ];
 
     // Add computed fields to JSON / array automatically

@@ -18,6 +18,10 @@ class CreateSubmissionsTable extends Migration
             // Submission state
             $table->boolean('submitted')->default(false);
             $table->timestamp('submitted_at')->nullable();
+            $table->float('eei')->nullable(); // Employee Engagement Index
+            $table->json('dimension_scores')->nullable(); // JSON field to store per-dimension scores
+            $table->json('reverse_inconsistency')->nullable(); // JSON field to store reverse coding inconsistency analysis
+            $table->boolean('is_identical')->default(false); 
             $table->timestamps();
         });
     }
